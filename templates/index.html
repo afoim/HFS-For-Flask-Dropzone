@@ -11,13 +11,31 @@
     <h1>文件上传</h1>
     <form action="/upload" class="dropzone" id="my-awesome-dropzone"></form>
 
-    <h2>已上传的文件</h2>
-    <ul>
+    <h2>已上传文件：</h2>
+    <ul id="file-list">
+        <!-- 直接加载已上传的文件列表 -->
         {% for file in files %}
-            <li>
-                <a href="/files/{{ file }}">{{ file }}</a>
-            </li>
+            <li><a href="/files/{{ file }}" download>{{ file }}</a></li>
         {% endfor %}
     </ul>
+
+    <script>
+        Dropzone.options.myAwesomeDropzone = {
+            maxFilesize: 50, // 文件大小限制为50MB
+            init: function() {
+                this.on("error", function(file, message) {
+                    alert("错误: " + message);
+                });
+                this.on("success", function(file, response) {
+                    if (response === '文件已存在') {
+                        this.removeFile(file);
+                        alert(response);
+                    } else {
+                        // 文件上传成功后不再添加文件到列表
+                    }
+                });
+            }
+        };
+    </script>
 </body>
 </html>

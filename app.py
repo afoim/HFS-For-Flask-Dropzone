@@ -8,7 +8,7 @@ dropzone = Dropzone(app)
 # 设置文件上传目录
 app.config['DROPZONE_UPLOAD_MULTIPLE'] = False
 app.config['DROPZONE_ALLOWED_FILE_TYPE'] = 'file'
-app.config['DROPZONE_MAX_FILE_SIZE'] = 2  # 最大文件大小为50MB
+app.config['DROPZONE_MAX_FILE_SIZE'] = 50  # 最大文件大小为50MB
 UPLOAD_FOLDER = 'Files'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -22,7 +22,10 @@ def index():
 def upload_file():
     file = request.files.get('file')
     if file:
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        if os.path.exists(file_path):
+            return '文件已存在', 400  # 返回400错误
+        file.save(file_path)
         return '文件上传成功', 200
     return '没有文件上传', 400
 
