@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/basic.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.js"></script>
+</head>
+<body>
+    <h1>文件上传</h1>
+    <form action="/upload" class="dropzone" id="my-awesome-dropzone"></form>
+
+    <h2>已上传的文件</h2>
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="/files/{{ file }}">{{ file }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
